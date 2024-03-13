@@ -6,7 +6,7 @@ public class CarAI : MonoBehaviour
 {
     public Transform node;
     private List<Transform> nodes;
-    private int currentNode = 0;
+    public int currentNode = 0;
 
     public float maxSteerAngle = 45;
     public WheelCollider wheelFR;
@@ -15,7 +15,7 @@ public class CarAI : MonoBehaviour
     private void Start()
     {
         Transform[] nodeInPath = GetComponentsInChildren<Transform>();
-        nodes = new List<Transform> ();
+        nodes = new List<Transform>();
 
         for (int i = 0; i < nodeInPath.Length; i++)
         {
@@ -29,6 +29,8 @@ public class CarAI : MonoBehaviour
     private void FixedUpdate()
     {
         ApplySteer();
+        Drive();
+        CheckWayPoint();
     }
 
     private void ApplySteer()
@@ -38,5 +40,23 @@ public class CarAI : MonoBehaviour
 
         wheelFL.steerAngle = newSteer;
         wheelFR.steerAngle = newSteer;
+    }
+
+    private void Drive()
+    {
+        wheelFL.motorTorque = 50f;
+        wheelFR.motorTorque = 50f;
+    }
+
+    private void CheckWayPoint()
+    {
+        if(Vector3.Distance(transform.position, nodes[currentNode].position) < 0.05f)
+        {
+            if (currentNode == nodes.Count - 1)
+            {
+                currentNode = 0;
+            }
+            else currentNode++;
+        }
     }
 }
