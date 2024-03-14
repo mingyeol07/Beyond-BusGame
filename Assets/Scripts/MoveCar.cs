@@ -38,5 +38,8 @@ public class MoveCar : MonoBehaviour
         }
     }
 
-    
+    private void Drift()
+    {
+
+    }
 }
