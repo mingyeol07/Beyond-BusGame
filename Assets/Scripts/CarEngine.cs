@@ -54,7 +54,7 @@ public class CarEngine : MonoBehaviour
 
     private void CheckWayPoint()
     {
-        if(Vector3.Distance(body.transform.position, nodes[currentNode].position) < 1f)
+        if (Vector3.Distance(body.transform.position, nodes[currentNode].position) < 1f)
         {
             if (currentNode == nodes.Count - 1)
             {

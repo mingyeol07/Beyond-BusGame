@@ -30,7 +30,6 @@ public class CameraMove : MonoBehaviour
     {
         var direction = carTarget.position - transform.position;
         var rotation = new Quaternion();
-
         rotation = Quaternion.LookRotation(direction + rotOffset, Vector3.up);
 
         transform.rotation = Quaternion.Lerp(transform.rotation, rotation, rotSmoothness * Time.deltaTime);
