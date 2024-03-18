@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TreeEditor;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -58,17 +59,24 @@ public class MoveCar : MonoBehaviour
         }
         turnInput = Input.GetAxis("Horizontal");
 
+        
         // Draft
-        if (grounded && Input.GetKey(KeyCode.LeftShift)) isDrift = true;
-        else isDrift = false;
-
-        if(grounded && Input.GetKeyDown(KeyCode.LeftShift))
+        if (Input.GetKeyDown(KeyCode.LeftShift) && grounded)
         {
-            rigid.AddForce(Vector3.up * 100f);
+            isDrift = true;
+            rigid.AddForce(Vector3.up * 50f, ForceMode.Impulse);
+            StartDrift();
+        }
+
+        // 드리프트 종료
+        if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            isDrift = false;
+            EndDrift();
         }
 
         // Rotation
-        if(grounded)
+        if (grounded)
         {
             transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0, turnInput *
                 currentTurnSpeed * Time.deltaTime * Input.GetAxis("Vertical"), 0f));
@@ -100,6 +108,7 @@ public class MoveCar : MonoBehaviour
             grounded = true;
             transform.rotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
         }
+
     }
 
     private void Draft()
@@ -139,6 +148,42 @@ public class MoveCar : MonoBehaviour
         {
             var emissionModule = part.emission;
             emissionModule.rateOverTime = emissionRate;
+        }
+    }
+
+    // 드리프트 시작 시 호출될 함수
+    void StartDrift()
+    {
+        rigid.AddForce(Vector3.up * 250f, ForceMode.Impulse);
+
+        // 드리프트 시작 시 이동 방향으로 잠깐 회전하는 연출 추가
+        if (speedInput > 0) // 전진 중일 때
+        {
+            StartCoroutine(TurnDuringDrift(turnInput > 0 ? 15f : -15f)); // 방향 입력에 따라 회전
+        }
+        else if (speedInput < 0) // 후진 중일 때
+        {
+            StartCoroutine(TurnDuringDrift(turnInput > 0 ? -15f : 15f)); // 후진 시 방향 반전
+        }
+    }
+
+    // 드리프트 종료 시 호출될 함수
+    void EndDrift()
+    {
+        // 드리프트 종료 시 필요한 로직 추가 (현재는 비어 있음)
+    }
+
+    // 드리프트 중 회전 연출을 위한 코루틴
+    IEnumerator TurnDuringDrift(float turnAngle)
+    {
+        float turnTime = 0.5f; // 회전이 지속될 시간 (초)
+        float timer = 0f;
+        while (timer < turnTime)
+        {
+            // 이동 방향쪽으로 잠깐 회전
+            transform.Rotate(0f, turnAngle * Time.deltaTime / turnTime, 0f);
+            timer += Time.deltaTime;
+            yield return null;
         }
     }
 }
