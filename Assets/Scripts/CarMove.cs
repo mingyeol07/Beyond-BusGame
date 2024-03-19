@@ -1,20 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.ConstrainedExecution;
 using TreeEditor;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class MoveCar : MonoBehaviour
+public class CarMove : MonoBehaviour
 {
     public Rigidbody rigid;
 
     private float currentAccel;
     private float currentTurnSpeed;
 
+    [Header("Item")]
+    public float smallUpSpeed = 2f;
+    public float bigUpSpeed = 3f;
+
     [Header("Move")]
     public float forwardAccel = 6f;
-    public float reverseAccel = 4f;
     public float turnStrength = 45f;
     public float gravityForce = 10f;
     public float dragOnGround = 3f;
@@ -22,24 +26,19 @@ public class MoveCar : MonoBehaviour
 
     [Header("Draft")]
     public bool isDrift = false;
-    public float driftSpeed = 4f;
-    public float driftTurn = 90f;
+    public float driftSpeed = 2f;
+    public float driftTurn = 60f;
 
     [Header("Ground Check")]
     private bool grounded;
     public LayerMask whatIsGround;
-    public float groundRayLength = .5f;
+    public float groundRayLength = 0.5f;
     public Transform groundRayPoint;
 
     [Header("Wheel Anim")]
     public Transform leftFrontWheel;
     public Transform rightFrontWheel;
-    public float maxWheelTurn= 25f;
-
-    [Header("Trail Particle")]
-    public ParticleSystem[] dustTrail;
-    public float maxEmission = 25f;
-    private float emissionRate;
+    public float maxWheelTurn = 25f;
 
     private void Start()
     {
@@ -49,22 +48,22 @@ public class MoveCar : MonoBehaviour
     {
         // Input
         speedInput = 0f;
-        if(Input.GetAxis("Vertical") > 0)
-                {
+        if (Input.GetAxis("Vertical") != 0)
+        {
             speedInput = Input.GetAxis("Vertical") * currentAccel * 1000f;
-
-        } else if(Input.GetAxis("Vertical") < 0)
-                {
-            speedInput = Input.GetAxis("Vertical") * reverseAccel * 1000f;
         }
         turnInput = Input.GetAxis("Horizontal");
 
+        // item
+        if(Input.GetKeyDown(KeyCode.Z))
+        {
+            StartCoroutine(SpeedUp(smallUpSpeed));
+        }
         
         // Draft
         if (Input.GetKeyDown(KeyCode.LeftShift) && grounded)
         {
             isDrift = true;
-            rigid.AddForce(Vector3.up * 50f, ForceMode.Impulse);
             StartDrift();
         }
 
@@ -72,7 +71,8 @@ public class MoveCar : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             isDrift = false;
-            EndDrift();
+            currentAccel = forwardAccel;
+            currentTurnSpeed = turnStrength;
         }
 
         // Rotation
@@ -87,19 +87,17 @@ public class MoveCar : MonoBehaviour
         rightFrontWheel.localRotation = Quaternion.Euler(rightFrontWheel.localRotation.eulerAngles.x, turnInput * maxWheelTurn, rightFrontWheel.localRotation.eulerAngles.z);
 
         // rigidbody의 포지션 따라가기
-        transform.position = rigid.gameObject.transform.localPosition - new Vector3(0, 0.5f, 0) ;
+        transform.position = rigid.gameObject.transform.localPosition - new Vector3(0, 0.5f, 0);
     }
 
     private void FixedUpdate()
     {
         GroundCheck();
-        Trail();
-        Draft();
+        Drift();
     }
 
     private void GroundCheck()
     {
-        // 땅에 붙어있는지 확인
         grounded = false;
         RaycastHit hit;
 
@@ -107,27 +105,14 @@ public class MoveCar : MonoBehaviour
         {
             grounded = true;
             transform.rotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
-        }
-
-    }
-
-    private void Draft()
-    {
-        if(isDrift)
-        {
-            currentAccel = driftSpeed;
-            currentTurnSpeed = driftTurn;
-        }
-        else
-        {
             currentAccel = forwardAccel;
-            currentTurnSpeed = turnStrength;
         }
-    }
-
-    private void Trail()
-    {
-        emissionRate = 0;
+        else if (Physics.Raycast(groundRayPoint.position, -transform.up, out hit, groundRayLength, LayerMask.GetMask("NoneGround")))
+        {
+            grounded = true;
+            transform.rotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
+            currentAccel = 1f;
+        }
 
         if (grounded)
         {
@@ -135,7 +120,6 @@ public class MoveCar : MonoBehaviour
             if (Mathf.Abs(speedInput) > 0)
             {
                 rigid.AddForce(transform.forward * speedInput);
-                emissionRate = maxEmission;
             }
         }
         else
@@ -143,47 +127,53 @@ public class MoveCar : MonoBehaviour
             rigid.drag = 0.1f;
             rigid.AddForce(Vector3.up * -gravityForce * 100f);
         }
+    }
 
-        foreach (ParticleSystem part in dustTrail)
+    private void Drift()
+    {
+        if (isDrift)
         {
-            var emissionModule = part.emission;
-            emissionModule.rateOverTime = emissionRate;
+            currentAccel = driftSpeed;
+            currentTurnSpeed = driftTurn;
         }
     }
 
-    // 드리프트 시작 시 호출될 함수
-    void StartDrift()
+    private void StartDrift()
     {
         rigid.AddForce(Vector3.up * 250f, ForceMode.Impulse);
 
-        // 드리프트 시작 시 이동 방향으로 잠깐 회전하는 연출 추가
-        if (speedInput > 0) // 전진 중일 때
+        if (turnInput > 0)
         {
-            StartCoroutine(TurnDuringDrift(turnInput > 0 ? 15f : -15f)); // 방향 입력에 따라 회전
+            StartCoroutine(TurnDuringDrift(30f));
         }
-        else if (speedInput < 0) // 후진 중일 때
+        else if (turnInput < 0)
         {
-            StartCoroutine(TurnDuringDrift(turnInput > 0 ? -15f : 15f)); // 후진 시 방향 반전
+            StartCoroutine(TurnDuringDrift(-30f));
         }
     }
 
-    // 드리프트 종료 시 호출될 함수
-    void EndDrift()
-    {
-        // 드리프트 종료 시 필요한 로직 추가 (현재는 비어 있음)
-    }
-
-    // 드리프트 중 회전 연출을 위한 코루틴
     IEnumerator TurnDuringDrift(float turnAngle)
     {
-        float turnTime = 0.5f; // 회전이 지속될 시간 (초)
+        float turnTime = 0.5f;
         float timer = 0f;
         while (timer < turnTime)
         {
-            // 이동 방향쪽으로 잠깐 회전
             transform.Rotate(0f, turnAngle * Time.deltaTime / turnTime, 0f);
             timer += Time.deltaTime;
             yield return null;
         }
+    }
+
+    IEnumerator SpeedUp(float speedUp)
+    {
+        float upTime = 0.5f;
+        float timer = 0f;
+        while (timer < upTime)
+        {
+            currentAccel = currentAccel + speedUp;
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        currentAccel = forwardAccel;
     }
 }
