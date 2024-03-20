@@ -30,7 +30,7 @@ public class CarMove : MonoBehaviour
     public float driftTurn = 60f;
 
     [Header("Ground Check")]
-    private bool grounded;
+    [SerializeField] private bool grounded;
     public LayerMask whatIsGround;
     public float groundRayLength = 0.5f;
     public Transform groundRayPoint;
@@ -43,6 +43,7 @@ public class CarMove : MonoBehaviour
     private void Start()
     {
         rigid.transform.parent = null;
+        currentTurnSpeed = turnStrength;
     }
     private void Update()
     {
@@ -83,7 +84,7 @@ public class CarMove : MonoBehaviour
         }
 
         // Animation
-        leftFrontWheel.localRotation = Quaternion.Euler(leftFrontWheel.localRotation.eulerAngles.x, (turnInput * maxWheelTurn) - 180, leftFrontWheel.localRotation.eulerAngles.z);
+        leftFrontWheel.localRotation = Quaternion.Euler(leftFrontWheel.localRotation.eulerAngles.x, turnInput * maxWheelTurn, leftFrontWheel.localRotation.eulerAngles.z);
         rightFrontWheel.localRotation = Quaternion.Euler(rightFrontWheel.localRotation.eulerAngles.x, turnInput * maxWheelTurn, rightFrontWheel.localRotation.eulerAngles.z);
 
         // rigidbody의 포지션 따라가기
@@ -111,7 +112,7 @@ public class CarMove : MonoBehaviour
         {
             grounded = true;
             transform.rotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
-            currentAccel = 1f;
+            currentAccel = 2f;
         }
 
         if (grounded)
@@ -175,5 +176,13 @@ public class CarMove : MonoBehaviour
             yield return null;
         }
         currentAccel = forwardAccel;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Item"))
+        {
+            ItemManager.instance.GetItem();
+        }
     }
 }
