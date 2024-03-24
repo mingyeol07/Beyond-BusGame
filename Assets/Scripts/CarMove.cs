@@ -58,7 +58,7 @@ public class CarMove : MonoBehaviour
         // item
         if(Input.GetKeyDown(KeyCode.Z))
         {
-            StartCoroutine(SpeedUp(smallUpSpeed));
+            UseItem();
         }
         
         // Draft
@@ -155,13 +155,36 @@ public class CarMove : MonoBehaviour
 
     IEnumerator TurnDuringDrift(float turnAngle)
     {
-        float turnTime = 0.5f;
+        float turnTime = 0.25f;
         float timer = 0f;
         while (timer < turnTime)
         {
             transform.Rotate(0f, turnAngle * Time.deltaTime / turnTime, 0f);
             timer += Time.deltaTime;
             yield return null;
+        }
+    }
+
+    private void UseItem()
+    {
+        if(ItemManager.instance.currItemData != null)
+        {
+            ItemType type = ItemManager.instance.currItemData.type;
+
+            if(type == ItemType.speedUp)
+            {
+                StartCoroutine(SpeedUp(smallUpSpeed));
+            }
+            else if (type == ItemType.speedBigUp)
+            {
+                StartCoroutine(SpeedUp(bigUpSpeed));
+            }
+            else if (type == ItemType.getMoney)
+            {
+
+            }
+
+            ItemManager.instance.ResetItem();
         }
     }
 

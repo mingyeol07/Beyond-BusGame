@@ -2,54 +2,58 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements.Experimental;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+    public bool gaming;
+
+    [SerializeField] private Text startText;
+
+    [SerializeField] private Text racingTimeText;
+    private float racingTime;
+    private float finishTime;
+
+    [SerializeField] private GameObject finishPanel;
 
     private void Awake()
     {
         instance = this;
     }
 
-    [SerializeField] private Text startText;
-    bool gaming;
-
-    [SerializeField] private Text timeText;
-    private float time;
-    private float finishTime;
-
-    [SerializeField] private GameObject finishPanel;
-   
-
     private void Start()
     {
+        gaming = false;
         StartCoroutine(Starting());
     }
 
     private void Update()
     {
-        time += Time.deltaTime;
-        timeText.text = time.ToString("F2");
+        racingTime += Time.deltaTime;
+        racingTimeText.text = racingTime.ToString("F2");
     }
-
 
     IEnumerator Starting()
     {
+        int timer = 3;
+
         startText.gameObject.SetActive(true);
-        timeText.gameObject.SetActive(false);
-        startText.text = "3";
-        yield return new WaitForSeconds(1f);
-        startText.text = "2";
-        yield return new WaitForSeconds(1f);
-        startText.text = "1";
-        yield return new WaitForSeconds(1f);
+        racingTimeText.gameObject.SetActive(false);
+
+        while (timer > 0)
+        {
+            startText.text = timer.ToString();
+            timer -= 1;
+            yield return new WaitForSeconds(1f);
+        }
+
         startText.text = "Go";
-        time = 0;
-        timeText.gameObject.SetActive(true);
+        racingTime = 0;
+        racingTimeText.gameObject.SetActive(true);
         gaming = true;
         yield return new WaitForSeconds(1f);
-        startText.gameObject.SetActive( false);
+        startText.gameObject.SetActive(false);
     }
 
     private void Finish()

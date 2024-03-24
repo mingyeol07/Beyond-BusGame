@@ -21,7 +21,9 @@ public class ItemManager : MonoBehaviour
     [SerializeField] private Image itemImage;
     [SerializeField] private Text itemName;
 
-    private ItemData currItemData;
+    public CarMove player;
+
+    public ItemData currItemData;
 
     private void Awake()
     {
@@ -34,6 +36,12 @@ public class ItemManager : MonoBehaviour
 
         currItemData = datas[ranNum];
         ItemInit();
+    }
+
+    public void ResetItem()
+    {
+        itemImage.sprite = null;
+        itemName.text = null;
     }
 
     private void ItemInit()

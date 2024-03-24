@@ -5,16 +5,13 @@ using UnityEngine;
 public class CarEngine : MonoBehaviour
 {
     public Transform path;
-    public float maxSteerAngle = 45;
-    public float maxMoterSpeed = 80;
-    
+    public float maxSteerAngle = 5;
+    public float maxMotorSpeed = 10;
+
     public Transform body;
 
     [SerializeField] private List<Transform> nodes;
     public int currentNode = 0;
-
-    public WheelCollider wheelFR;
-    public WheelCollider wheelFL;
 
     private void Start()
     {
@@ -39,28 +36,31 @@ public class CarEngine : MonoBehaviour
 
     private void ApplySteer()
     {
-        Vector3 relativeVector = body.transform.InverseTransformPoint(nodes[currentNode].position);
-        float newSteer = (relativeVector.x / relativeVector.magnitude) * maxSteerAngle;
-
-        wheelFL.steerAngle = newSteer;
-        wheelFR.steerAngle = newSteer;
+        Vector3 relativeVector = nodes[currentNode].position - body.position;
+        Quaternion rotation = Quaternion.LookRotation(relativeVector);
+        Vector3 euler = rotation.eulerAngles;
+        euler = new Vector3(0, euler.y, 0); // Keep only the y rotation for steering
+        Quaternion newRotation = Quaternion.Euler(euler);
+        body.rotation = Quaternion.Slerp(body.rotation, newRotation, Time.deltaTime * maxSteerAngle);
     }
 
     private void Drive()
     {
-        wheelFL.motorTorque = maxMoterSpeed;
-        wheelFR.motorTorque = maxMoterSpeed;
+        body.Translate(Vector3.forward * maxMotorSpeed * Time.deltaTime);
     }
 
     private void CheckWayPoint()
     {
-        if (Vector3.Distance(body.transform.position, nodes[currentNode].position) < 1f)
+        if (Vector3.Distance(body.position, nodes[currentNode].position) < 1f)
         {
             if (currentNode == nodes.Count - 1)
             {
                 currentNode = 0;
             }
-            else currentNode++;
+            else
+            {
+                currentNode++;
+            }
         }
     }
 }
