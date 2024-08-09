@@ -4,18 +4,35 @@ using UnityEngine;
 
 public class CameraMove : MonoBehaviour
 {
-    public float moveSmoothness;
-    public float rotSmoothness;
+    [SerializeField] private float moveSmoothness;
+    [SerializeField] private float rotSmoothness;
 
-    public Vector3 moveOffset;
-    public Vector3 rotOffset;
+    [SerializeField] private Vector3 moveOffset;
+    [SerializeField] private Vector3 rotOffset;
 
-    public Transform carTarget;
+    [SerializeField] private Transform carTarget;
+
+    private bool IsFirstPositionToggle;
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            IsFirstPositionToggle = !IsFirstPositionToggle;
+        }
+    }
 
     private void FixedUpdate()
     {
-        HandleMovement();
-        HandleRotation();
+        if(IsFirstPositionToggle)
+        {
+
+        }
+        else
+        {
+            HandleMovement();
+            HandleRotation();
+        }
     }
 
     void HandleMovement()

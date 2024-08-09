@@ -35,10 +35,10 @@ public class CarMove : MonoBehaviour
     public float groundRayLength = 0.5f;
     public Transform groundRayPoint;
 
-    [Header("Wheel Anim")]
-    public Transform leftFrontWheel;
-    public Transform rightFrontWheel;
-    public float maxWheelTurn = 25f;
+    //[Header("Wheel Anim")]
+    //public Transform leftFrontWheel;
+    //public Transform rightFrontWheel;
+    //public float maxWheelTurn = 25f;
 
     private void Start()
     {
@@ -54,12 +54,6 @@ public class CarMove : MonoBehaviour
             speedInput = Input.GetAxis("Vertical") * currentAccel * 1000f;
         }
         turnInput = Input.GetAxis("Horizontal");
-
-        // item
-        if(Input.GetKeyDown(KeyCode.Z))
-        {
-            UseItem();
-        }
         
         // Draft
         if (Input.GetKeyDown(KeyCode.LeftShift) && grounded)
@@ -84,11 +78,11 @@ public class CarMove : MonoBehaviour
         }
 
         // Animation
-        leftFrontWheel.localRotation = Quaternion.Euler(leftFrontWheel.localRotation.eulerAngles.x, turnInput * maxWheelTurn, leftFrontWheel.localRotation.eulerAngles.z);
-        rightFrontWheel.localRotation = Quaternion.Euler(rightFrontWheel.localRotation.eulerAngles.x, turnInput * maxWheelTurn, rightFrontWheel.localRotation.eulerAngles.z);
+        //leftFrontWheel.localRotation = Quaternion.Euler(leftFrontWheel.localRotation.eulerAngles.x, turnInput * maxWheelTurn, leftFrontWheel.localRotation.eulerAngles.z);
+        //rightFrontWheel.localRotation = Quaternion.Euler(rightFrontWheel.localRotation.eulerAngles.x, turnInput * maxWheelTurn, rightFrontWheel.localRotation.eulerAngles.z);
 
         // rigidbody의 포지션 따라가기
-        transform.position = rigid.gameObject.transform.localPosition - new Vector3(0, 0.5f, 0);
+        transform.position = rigid.gameObject.transform.localPosition - new Vector3(0, 1.3f, 0);
     }
 
     private void FixedUpdate()
@@ -162,50 +156,6 @@ public class CarMove : MonoBehaviour
             transform.Rotate(0f, turnAngle * Time.deltaTime / turnTime, 0f);
             timer += Time.deltaTime;
             yield return null;
-        }
-    }
-
-    private void UseItem()
-    {
-        if(ItemManager.instance.currItemData != null)
-        {
-            ItemType type = ItemManager.instance.currItemData.type;
-
-            if(type == ItemType.speedUp)
-            {
-                StartCoroutine(SpeedUp(smallUpSpeed));
-            }
-            else if (type == ItemType.speedBigUp)
-            {
-                StartCoroutine(SpeedUp(bigUpSpeed));
-            }
-            else if (type == ItemType.getMoney)
-            {
-
-            }
-
-            ItemManager.instance.ResetItem();
-        }
-    }
-
-    IEnumerator SpeedUp(float speedUp)
-    {
-        float upTime = 0.5f;
-        float timer = 0f;
-        while (timer < upTime)
-        {
-            currentAccel = currentAccel + speedUp;
-            timer += Time.deltaTime;
-            yield return null;
-        }
-        currentAccel = forwardAccel;
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if(collision.gameObject.CompareTag("Item"))
-        {
-            ItemManager.instance.GetItem();
         }
     }
 }
