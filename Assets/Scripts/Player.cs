@@ -1,28 +1,44 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using UnityEngine;
-using UnityEngine.EventSystems;
-
-public class Player : MonoBehaviour
+namespace Mingyeoul
 {
-    private float hor;
-    private float ver;
-    private Rigidbody rigid;
+    using System.Collections;
+    using System.Collections.Generic;
+    using UnityEngine;
 
-    private void Awake()
+    public class BusGuestInspection : MonoBehaviour
     {
-        rigid = GetComponent<Rigidbody>();
+        [SerializeField]
+        private float range;      // ªÁ∞≈∏Æ
+        [SerializeField]
+        private LayerMask guestLayerMask;
+
+        private RaycastHit raycastHit;
+
+        private void Update()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+                if (Physics.Raycast(ray, out raycastHit, range, guestLayerMask))
+                {
+                    ProcessGuestType(raycastHit);
+                }
+            }
+        }
+
+        private void ProcessGuestType(RaycastHit raycastHit)
+        {
+            BusGuestType busGuestType = raycastHit.collider.GetComponent<BusGuest>().BusGuestType;
+
+            if (busGuestType == BusGuestType.NuisanceGuest)
+            {
+                Debug.Log("¿∏æ« πŒ∆Û º’¥‘¿Ã¥Ÿ ~!!!");
+            }
+            else if (busGuestType == BusGuestType.NormalGuest)
+            {
+                Debug.Log("ø¿ º’¥‘¿Ã¥Ÿ ~!!!");
+            }
+        }
     }
 
-    private void Update()
-    {
-        hor = Input.GetAxisRaw("Horizontal");
-        ver = Input.GetAxisRaw("Vertical");
-    }
-
-    private void FixedUpdate()
-    {
-        rigid.velocity = new Vector3(hor, rigid.velocity.y, ver).normalized;
-    }
 }
