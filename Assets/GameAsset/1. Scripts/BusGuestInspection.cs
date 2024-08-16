@@ -27,6 +27,11 @@ public class BusGuestInspection : MonoBehaviour
         }
     }
 
+    private void ProcessBus()
+    {
+        
+    }
+
     private void ProcessGuestType(RaycastHit raycastHit)
     {
         BusGuestType busGuestType = raycastHit.collider.GetComponent<BusGuest>().BusGuestType;
