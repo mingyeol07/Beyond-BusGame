@@ -6,6 +6,8 @@ using UnityEngine.EventSystems;
 
 public class Player : MonoBehaviour
 {
+
+    private float speed = 6;
     private float hor;
     private float ver;
     private Rigidbody rigid;
@@ -23,6 +25,6 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rigid.velocity = new Vector3(hor, rigid.velocity.y, ver).normalized;
+        rigid.velocity = new Vector3(hor, rigid.velocity.y, ver).normalized * speed;
     }
 }
