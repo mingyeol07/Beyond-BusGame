@@ -4,10 +4,15 @@ namespace Mingyeoul
     using System.Collections.Generic;
     using UnityEngine;
 
+    private float speed = 6;
+    private float hor;
+    private float ver;
+    private Rigidbody rigid;
+
     public class BusGuestInspection : MonoBehaviour
     {
         [SerializeField]
-        private float range;      // »ç°Å¸®
+        private float range;      // ï¿½ï¿½Å¸ï¿½
         [SerializeField]
         private LayerMask guestLayerMask;
 
@@ -32,13 +37,24 @@ namespace Mingyeoul
 
             if (busGuestType == BusGuestType.NuisanceGuest)
             {
-                Debug.Log("À¸¾Ç ¹ÎÆó ¼Õ´ÔÀÌ´Ù ~!!!");
+                Debug.Log("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Õ´ï¿½ï¿½Ì´ï¿½ ~!!!");
             }
             else if (busGuestType == BusGuestType.NormalGuest)
             {
-                Debug.Log("¿À ¼Õ´ÔÀÌ´Ù ~!!!");
+                Debug.Log("ï¿½ï¿½ ï¿½Õ´ï¿½ï¿½Ì´ï¿½ ~!!!");
             }
         }
     }
 
+}
+    private void Update()
+    {
+        hor = Input.GetAxisRaw("Horizontal");
+        ver = Input.GetAxisRaw("Vertical");
+    }
+
+    private void FixedUpdate()
+    {
+        rigid.velocity = new Vector3(hor, rigid.velocity.y, ver).normalized * speed;
+    }
 }

@@ -12,23 +12,16 @@ public class CameraMove : MonoBehaviour
 
     [SerializeField] private Transform carTarget;
 
-    private bool IsFirstPositionToggle;
+    private bool isRide;
+    private bool isFirstPositionToggle;
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            IsFirstPositionToggle = !IsFirstPositionToggle;
-        }
     }
 
     private void FixedUpdate()
     {
-        if(IsFirstPositionToggle)
-        {
-
-        }
-        else
+        if (isRide)
         {
             HandleMovement();
             HandleRotation();
