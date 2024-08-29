@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     public float moveSpeed;
     float h;
     float v;
+    public bool isDriving;
 
     private new Rigidbody rigidbody;
 
@@ -32,17 +33,11 @@ public class Player : MonoBehaviour
 
         cam = Camera.main;                          // 메인 카메라를 할당
         cam.transform.rotation = Quaternion.Euler(0, 0, 0);
+        xRotation = 0;
+        yRotation = 0;
     }
 
     private void Update()
-    {
-        h = Input.GetAxisRaw("Horizontal"); // 수평 이동 입력 값
-        v = Input.GetAxisRaw("Vertical");   // 수직 이동 입력 값
-        Rotate();
-        RaycastFromCamera(); // 레이캐스트 검사
-    }
-
-    void Rotate()
     {
         float mouseX = Input.GetAxisRaw("Mouse X") * mouseSpeed * Time.deltaTime;
         float mouseY = Input.GetAxisRaw("Mouse Y") * mouseSpeed * Time.deltaTime;
@@ -50,20 +45,44 @@ public class Player : MonoBehaviour
         yRotation += mouseX;    // 마우스 X축 입력에 따라 수평 회전 값을 조정
         xRotation -= mouseY;    // 마우스 Y축 입력에 따라 수직 회전 값을 조정
 
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);  // 수직 회전 값을 -90도에서 90도 사이로 제한
+        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
+        if (!isDriving)
+        {
+            h = Input.GetAxisRaw("Horizontal"); // 수평 이동 입력 값
+            v = Input.GetAxisRaw("Vertical");   // 수직 이동 입력 값
+            Rotate();
+            RaycastFromCamera(); // 레이캐스트 검사
+        }
+    }
+
+    private void LateUpdate()
+    {
+        CamRotate();
+    }
+
+    private void CamRotate()
+    {
         cam.transform.rotation = Quaternion.Euler(xRotation, yRotation, 0); // 카메라의 회전을 조절
         cam.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+    }
+
+    void Rotate()
+    {
+       // 수직 회전 값을 -90도에서 90도 사이로 제한
         transform.rotation = Quaternion.Euler(0, yRotation, 0);             // 플레이어 캐릭터의 회전을 조절
     }
 
     private void FixedUpdate()
     {
-        // 입력에 따라 이동 방향 벡터 계산
-        Vector3 moveVec = transform.forward * v + transform.right * h;
+        if(!isDriving)
+        {
+            // 입력에 따라 이동 방향 벡터 계산
+            Vector3 moveVec = transform.forward * v + transform.right * h;
 
-        // Rigidbody를 이용해 이동 처리
-        rigidbody.MovePosition(transform.position + moveVec.normalized * moveSpeed * Time.fixedDeltaTime);
+            // Rigidbody를 이용해 이동 처리
+            rigidbody.MovePosition(transform.position + moveVec.normalized * moveSpeed * Time.fixedDeltaTime);
+        }
     }
 
     void RaycastFromCamera()
@@ -79,7 +98,6 @@ public class Player : MonoBehaviour
             {
                 if(Input.GetKeyDown(KeyCode.Mouse0))
                 {
-                    Debug.Log(":DDD");
                     castObject.Cast();
                 }
             }
