@@ -1,8 +1,5 @@
-// # System
 using System.Collections;
 using System.Collections.Generic;
-
-// # Unity
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -20,6 +17,9 @@ public class Player : MonoBehaviour
     private float xRotation;
     private Camera cam;
 
+    [Header("Raycast")]
+    public float raycastDistance = 100f; // 레이캐스트 최대 거리
+
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
@@ -31,6 +31,7 @@ public class Player : MonoBehaviour
         Cursor.visible = false;                     // 마우스 커서를 보이지 않도록 설정
 
         cam = Camera.main;                          // 메인 카메라를 할당
+        cam.transform.rotation = Quaternion.Euler(0, 0, 0);
     }
 
     private void Update()
@@ -38,6 +39,7 @@ public class Player : MonoBehaviour
         h = Input.GetAxisRaw("Horizontal"); // 수평 이동 입력 값
         v = Input.GetAxisRaw("Vertical");   // 수직 이동 입력 값
         Rotate();
+        RaycastFromCamera(); // 레이캐스트 검사
     }
 
     void Rotate()
@@ -51,6 +53,7 @@ public class Player : MonoBehaviour
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);  // 수직 회전 값을 -90도에서 90도 사이로 제한
 
         cam.transform.rotation = Quaternion.Euler(xRotation, yRotation, 0); // 카메라의 회전을 조절
+        cam.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
         transform.rotation = Quaternion.Euler(0, yRotation, 0);             // 플레이어 캐릭터의 회전을 조절
     }
 
@@ -59,7 +62,27 @@ public class Player : MonoBehaviour
         // 입력에 따라 이동 방향 벡터 계산
         Vector3 moveVec = transform.forward * v + transform.right * h;
 
-        // 이동 벡터를 정규화하여 이동 속도와 시간 간격을 곱한 후 현재 위치에 더함
-        transform.position += moveVec.normalized * moveSpeed * Time.deltaTime;
+        // Rigidbody를 이용해 이동 처리
+        rigidbody.MovePosition(transform.position + moveVec.normalized * moveSpeed * Time.fixedDeltaTime);
+    }
+
+    void RaycastFromCamera()
+    {
+        // 카메라의 시점에서 앞으로 레이를 쏜다.
+        Ray ray = cam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
+        RaycastHit hit;
+
+        // 레이캐스트가 물체에 부딪혔는지 검사
+        if (Physics.Raycast(ray, out hit, raycastDistance))
+        {
+            if (hit.transform.gameObject.TryGetComponent(out RaycastingObject castObject))
+            {
+                if(Input.GetKeyDown(KeyCode.Mouse0))
+                {
+                    Debug.Log(":DDD");
+                    castObject.Cast();
+                }
+            }
+        }
     }
 }
