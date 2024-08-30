@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -11,6 +12,12 @@ public class Player : MonoBehaviour
     public bool isDriving;
 
     private new Rigidbody rigidbody;
+
+    [SerializeField] private Transform handPosition;
+    [SerializeField] public GameObject guest;
+    [SerializeField] public GameObject weapon;
+
+    [SerializeField] private float gusetAwayForce;
 
     [Header("Rotate")]
     public float mouseSpeed;
@@ -47,6 +54,8 @@ public class Player : MonoBehaviour
 
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
+        HandGuest();
+
         if (!isDriving)
         {
             h = Input.GetAxisRaw("Horizontal"); // 수평 이동 입력 값
@@ -59,6 +68,16 @@ public class Player : MonoBehaviour
     private void LateUpdate()
     {
         CamRotate();
+
+        if(guest != null)
+        {
+            guest.transform.position = handPosition.position;
+        }
+        else if(weapon != null)
+        {
+            weapon.transform.position = handPosition.position;
+            weapon.transform.rotation = transform.rotation;
+        }
     }
 
     private void CamRotate()
@@ -100,6 +119,18 @@ public class Player : MonoBehaviour
                 {
                     castObject.Cast();
                 }
+            }
+        }
+    }
+
+    private void HandGuest()
+    {
+        if(guest != null)
+        {
+            if(Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                guest.GetComponent<Rigidbody>().velocity = transform.up * gusetAwayForce + transform.forward * gusetAwayForce;
+                guest = null;
             }
         }
     }
