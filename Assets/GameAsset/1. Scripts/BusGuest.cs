@@ -15,6 +15,9 @@ public class BusGuest : RaycastingObject
 
     public override void Cast()
     {
-        playerTransform.GetComponent<Player>().guest = this.gameObject;
+        if(playerTransform.GetComponent<Player>().weapon == null)
+        {
+            playerTransform.GetComponent<Player>().guest = this.gameObject;
+        }
     }
 }

@@ -76,7 +76,7 @@ public class Player : MonoBehaviour
         else if(weapon != null)
         {
             weapon.transform.position = handPosition.position;
-            weapon.transform.rotation = transform.rotation;
+            weapon.transform.rotation = handPosition.rotation;
         }
     }
 
@@ -133,5 +133,41 @@ public class Player : MonoBehaviour
                 guest = null;
             }
         }
+        else if (weapon != null)
+        {
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                handPosition.GetComponent<Animator>().SetTrigger("Attack");
+
+                Ray ray = cam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
+                RaycastHit hit;
+
+                if (Physics.Raycast(ray, out hit, raycastDistance))
+                {
+                    if (hit.transform.gameObject.TryGetComponent(out BusGuest guest))
+                    {
+                        StartCoroutine(AttackSlowMotion());
+                        guest.GetComponent<Rigidbody>().velocity = transform.up * gusetAwayForce + transform.forward * gusetAwayForce;
+                    }
+                }
+            }
+        }
+    }
+
+    private IEnumerator AttackSlowMotion()
+    {
+        float time = 0;
+
+        while (time < 1)
+        {
+            time += Time.unscaledDeltaTime;
+
+            Time.timeScale = time;
+            Time.fixedDeltaTime = 0.02f * time;
+
+            yield return null;
+        }
+
+        Time.timeScale = 1;
     }
 }
