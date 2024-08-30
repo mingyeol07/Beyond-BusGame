@@ -26,7 +26,7 @@ public class BusWaiter : MonoBehaviour
 
     void Start()
     {
-        bus = GameObject.FindWithTag("Player").transform;
+        bus = GameObject.FindWithTag("Bus").transform;
         busRb = bus.GetComponentInChildren<Rigidbody>();
         doorTarget = bus.transform.Find("DoorTarget");
         seatParent = bus.transform.Find("Seats");
@@ -42,12 +42,15 @@ public class BusWaiter : MonoBehaviour
                 if (Vector3.Distance(doorTarget.transform.position, transform.position) < 5 && busRb.velocity.magnitude <= 0.5f)
                     curState = States.GettingOnDoor;
                 if (transform.position != initPosition) {
-                    transform.position = Vector3.MoveTowards(transform.position,initPosition,Time.deltaTime * 3);
+                    transform.position = Vector3.MoveTowards(transform.position,initPosition,Time.deltaTime * 30    );
                 }
                 break;
             case States.GettingOnDoor:
                 if (Vector3.Distance(doorTarget.transform.position, transform.position) > 0.2f) {
                     transform.position = Vector3.MoveTowards(transform.position,doorTarget.transform.position,Time.deltaTime * 5);
+                    if (Vector3.Distance(doorTarget.transform.position, transform.position) > 10) {
+                        curState = States.Waiting;
+                    }
                 } else {
                     transform.position = doorTarget.transform.position;
                     busLocalPosition = doorTarget.transform.localPosition;
