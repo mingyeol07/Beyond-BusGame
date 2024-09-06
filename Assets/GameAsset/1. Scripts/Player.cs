@@ -129,6 +129,8 @@ public class Player : MonoBehaviour
         {
             if(Input.GetKeyDown(KeyCode.Mouse0))
             {
+                guest.GetComponent<Rigidbody>().useGravity = true;
+                guest.GetComponent<Rigidbody>().isKinematic = false;
                 guest.GetComponent<Rigidbody>().velocity = transform.up * gusetAwayForce + transform.forward * gusetAwayForce;
                 guest = null;
             }

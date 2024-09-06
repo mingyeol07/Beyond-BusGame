@@ -148,7 +148,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2010260}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1, y: 0, z: 1}
+  m_LocalPosition: {x: 1, y: 0, z: 3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -299,6 +299,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   busGuestType: 1
+  isGuesting: 0
 --- !u!114 &19879375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -385,7 +386,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 19879373}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2
@@ -544,6 +545,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   busGuestType: 1
+  isGuesting: 0
 --- !u!114 &58659870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -630,7 +632,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 58659868}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2
@@ -775,6 +777,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   busGuestType: 1
+  isGuesting: 0
 --- !u!114 &84677715
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -861,7 +864,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 84677713}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2
@@ -1052,6 +1055,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   busGuestType: 1
+  isGuesting: 0
 --- !u!114 &133821536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1138,7 +1142,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 133821534}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2
@@ -1662,6 +1666,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   busGuestType: 1
+  isGuesting: 0
 --- !u!114 &176588055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1748,7 +1753,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 176588053}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2
@@ -2662,6 +2667,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   busGuestType: 1
+  isGuesting: 0
 --- !u!114 &314103263
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2748,7 +2754,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 314103261}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2
@@ -2888,6 +2894,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   busGuestType: 1
+  isGuesting: 0
 --- !u!136 &367057223
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2896,7 +2903,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 367057216}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2
@@ -3501,6 +3508,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   busGuestType: 1
+  isGuesting: 0
 --- !u!114 &515585282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3587,7 +3595,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 515585280}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2
@@ -4518,6 +4526,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   busGuestType: 1
+  isGuesting: 0
 --- !u!114 &706327370
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4604,7 +4613,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 706327368}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2
@@ -4888,6 +4897,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   busGuestType: 1
+  isGuesting: 0
 --- !u!114 &743650876
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4974,7 +4984,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 743650874}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2
@@ -5529,6 +5539,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   busGuestType: 1
+  isGuesting: 0
 --- !u!114 &916983985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5615,7 +5626,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 916983983}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2
@@ -5768,8 +5779,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2, y: 2, z: 2}
-  m_Center: {x: 0, y: 1.88, z: -5}
+  m_Size: {x: 2, y: 2, z: 0.23968506}
+  m_Center: {x: 0, y: 1.8800001, z: -4.936676}
 --- !u!4 &944608081 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4000013471445132, guid: ae79fc296f66b4f18bb02bac835048dc, type: 3}
@@ -6643,6 +6654,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   busGuestType: 1
+  isGuesting: 0
 --- !u!136 &1221353596
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -6651,7 +6663,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1221353589}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2
@@ -6669,7 +6681,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -6919,6 +6931,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   busGuestType: 1
+  isGuesting: 0
 --- !u!114 &1297263244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7005,7 +7018,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1297263242}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2
@@ -7067,6 +7080,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   busGuestType: 1
+  isGuesting: 0
 --- !u!114 &1302285228
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7153,7 +7167,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1302285226}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2
@@ -8085,6 +8099,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   busGuestType: 1
+  isGuesting: 0
 --- !u!114 &1596393683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8171,7 +8186,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1596393681}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2
@@ -8382,6 +8397,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   busGuestType: 1
+  isGuesting: 0
 --- !u!114 &1631031311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8468,7 +8484,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1631031309}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2
@@ -9605,6 +9621,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   busGuestType: 1
+  isGuesting: 0
 --- !u!114 &1906491311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9691,7 +9708,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1906491309}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2
@@ -10108,6 +10125,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   busGuestType: 1
+  isGuesting: 0
 --- !u!114 &2004089344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10194,7 +10212,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2004089342}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2

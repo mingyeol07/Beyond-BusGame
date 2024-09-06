@@ -12,12 +12,14 @@ public class BusGuest : RaycastingObject
 
     // 프로퍼티 => 읽기 전용
     public BusGuestType BusGuestType { get => busGuestType; }
-
+    public bool isGuesting;
     public override void Cast()
     {
         if(playerTransform.GetComponent<Player>().weapon == null)
-        {
+        { 
             playerTransform.GetComponent<Player>().guest = this.gameObject;
+
         }
+        isGuesting = true;
     }
 }
