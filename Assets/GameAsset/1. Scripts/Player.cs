@@ -148,6 +148,7 @@ public class Player : MonoBehaviour
                     {
                         StartCoroutine(AttackSlowMotion());
                         guest.GetComponent<Rigidbody>().velocity = transform.up * gusetAwayForce + transform.forward * gusetAwayForce;
+                        guest.GetComponent<Collider>().enabled = false;
                     }
                 }
             }

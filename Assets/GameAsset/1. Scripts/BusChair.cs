@@ -10,7 +10,12 @@ public class BusChair : RaycastingObject
 
     private void Update()
     {
-
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            carMove.enabled = false;
+            playerTransform.GetComponent<Player>().isDriving = false;
+            isDriving = false;
+        }
     }
 
     private void LateUpdate()
@@ -32,12 +37,7 @@ public class BusChair : RaycastingObject
         }
         else
         {
-            if(Input.GetKeyDown(KeyCode.LeftShift))
-            {
-                carMove.enabled = false;
-                playerTransform.GetComponent<Player>().isDriving = false;
-                isDriving = false;
-            }
+
         }
     }
 }
