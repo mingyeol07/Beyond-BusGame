@@ -149,6 +149,9 @@ public class Player : MonoBehaviour
                     if (hit.transform.gameObject.TryGetComponent(out BusGuest guest))
                     {
                         StartCoroutine(AttackSlowMotion());
+                        guest.isGuesting = true;
+                        guest.GetComponent<Rigidbody>().useGravity = true;
+                        guest.GetComponent<Rigidbody>().isKinematic = false;
                         guest.GetComponent<Rigidbody>().velocity = transform.up * gusetAwayForce + transform.forward * gusetAwayForce;
                         guest.GetComponent<Collider>().enabled = false;
                     }
