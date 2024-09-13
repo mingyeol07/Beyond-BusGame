@@ -6,6 +6,7 @@ public class BusWaiter : MonoBehaviour
 {
     Transform bus;
     Rigidbody busRb;
+    Rigidbody rb;
     Transform doorTarget;
     Transform seatParent;
     Vector3 busLocalPosition;
@@ -13,6 +14,8 @@ public class BusWaiter : MonoBehaviour
     Vector3 initPosition;
 
     private BusGuest guest;
+
+    [SerializeField] Animator animator;
 
     private void Awake()
     {
@@ -34,6 +37,7 @@ public class BusWaiter : MonoBehaviour
     {
         bus = GameObject.FindWithTag("Bus").transform;
         busRb = bus.GetComponentInChildren<Rigidbody>();
+        rb = gameObject.GetComponent<Rigidbody>();
         doorTarget = bus.transform.Find("DoorTarget");
         seatParent = bus.transform.Find("Seats");
         initPosition = transform.position;
@@ -42,8 +46,15 @@ public class BusWaiter : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        if(!guest.isGuesting)
-        {
+        if (guest.isGuesting) {
+            if (animator != null) {
+                if (rb.velocity.magnitude > 10) {
+                    animator.SetInteger("state",4);
+                } else{
+                    animator.SetInteger("state",3);
+                }
+            }
+        } else {
             switch (curState)
             {
                 case States.Waiting:
@@ -53,6 +64,8 @@ public class BusWaiter : MonoBehaviour
                     {
                         transform.position = Vector3.MoveTowards(transform.position, initPosition, Time.deltaTime * 30);
                     }
+                    if (animator != null)
+                        animator.SetInteger("state",0);
                     break;
                 case States.GettingOnDoor:
                     if (Vector3.Distance(doorTarget.transform.position, transform.position) > 0.2f)
@@ -70,6 +83,8 @@ public class BusWaiter : MonoBehaviour
                         seat = Random.Range(0, seatParent.childCount);
                         curState = States.GettingInSeat;
                     }
+                    if (animator != null)
+                        animator.SetInteger("state",1);
                     break;
                 case States.GettingInSeat:
                     if (Vector3.Distance(seatParent.GetChild(seat).transform.localPosition, transform.position) > 0.2f)
@@ -82,6 +97,12 @@ public class BusWaiter : MonoBehaviour
                         curState = States.In;
                     }
                     transform.position = bus.transform.TransformPoint(busLocalPosition) + Vector3.up * yOffset;
+                    if (animator != null)
+                        animator.SetInteger("state",1);
+                    break;
+                case States.In:
+                    if (animator != null)
+                        animator.SetInteger("state",2);
                     break;
             }
         }
