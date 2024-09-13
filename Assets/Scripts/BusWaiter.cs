@@ -87,7 +87,7 @@ public class BusWaiter : MonoBehaviour
                         animator.SetInteger("state",1);
                     break;
                 case States.GettingInSeat:
-                    if (Vector3.Distance(seatParent.GetChild(seat).transform.localPosition, transform.position) > 0.2f)
+                    if (Vector3.Distance(seatParent.GetChild(seat).transform.localPosition, busLocalPosition) > 0.2f)
                     {
                         busLocalPosition = Vector3.MoveTowards(busLocalPosition, seatParent.GetChild(seat).transform.localPosition, Time.deltaTime * 4);
                     }
