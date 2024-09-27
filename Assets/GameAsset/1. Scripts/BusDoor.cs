@@ -27,4 +27,13 @@ public class BusDoor : RaycastingObject
 
         isInBus = !isInBus;
     }
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.TryGetComponent(out BusGuest guest))
+        {
+            
+        }
+    }
 }
