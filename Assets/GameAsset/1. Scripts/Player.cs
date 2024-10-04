@@ -56,7 +56,11 @@ public class Player : MonoBehaviour
 
         HandGuest();
 
-        if (!isDriving)
+        if (isDriving)
+        {
+            cursorState = -1;
+        }
+        else
         {
             h = Input.GetAxisRaw("Horizontal"); // ���� �̵� �Է� ��
             v = Input.GetAxisRaw("Vertical");   // ���� �̵� �Է� ��
