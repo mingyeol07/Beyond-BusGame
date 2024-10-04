@@ -101,6 +101,7 @@ public class BusWaiter : MonoBehaviour
                         animator.SetInteger("state",1);
                     break;
                 case States.In:
+                    transform.position = bus.transform.TransformPoint(busLocalPosition) + Vector3.up * yOffset;
                     if (animator != null)
                         animator.SetInteger("state",2);
                     break;
