@@ -8,6 +8,7 @@ using UnityEngine;
 public abstract class RaycastingObject : MonoBehaviour
 {
     protected Transform playerTransform;
+    public int cursorState = 2;
 
     private void Start()
     {

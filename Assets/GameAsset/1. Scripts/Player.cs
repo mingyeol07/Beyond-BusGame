@@ -26,8 +26,8 @@ public class Player : MonoBehaviour
     private Camera cam;
 
     [Header("Raycast")]
-    public float raycastDistance = 100f; // ·¹ÀÌÄ³½ºÆ® ÃÖ´ë °Å¸®
-
+    public float raycastDistance = 100f; // ï¿½ï¿½ï¿½ï¿½Ä³ï¿½ï¿½Æ® ï¿½Ö´ï¿½ ï¿½Å¸ï¿½
+    public int cursorState = 0;
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
@@ -35,10 +35,10 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;   // ¸¶¿ì½º Ä¿¼­¸¦ È­¸é ¾È¿¡¼­ °íÁ¤
-        Cursor.visible = false;                     // ¸¶¿ì½º Ä¿¼­¸¦ º¸ÀÌÁö ¾Êµµ·Ï ¼³Á¤
+        Cursor.lockState = CursorLockMode.Locked;   // ï¿½ï¿½ï¿½ì½º Ä¿ï¿½ï¿½ï¿½ï¿½ È­ï¿½ï¿½ ï¿½È¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        Cursor.visible = false;                     // ï¿½ï¿½ï¿½ì½º Ä¿ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Êµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-        cam = Camera.main;                          // ¸ÞÀÎ Ä«¸Þ¶ó¸¦ ÇÒ´ç
+        cam = Camera.main;                          // ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½Þ¶ï¿½ ï¿½Ò´ï¿½
         cam.transform.rotation = Quaternion.Euler(0, 0, 0);
         xRotation = 0;
         yRotation = 0;
@@ -49,8 +49,8 @@ public class Player : MonoBehaviour
         float mouseX = Input.GetAxisRaw("Mouse X") * mouseSpeed * Time.deltaTime;
         float mouseY = Input.GetAxisRaw("Mouse Y") * mouseSpeed * Time.deltaTime;
 
-        yRotation += mouseX;    // ¸¶¿ì½º XÃà ÀÔ·Â¿¡ µû¶ó ¼öÆò È¸Àü °ªÀ» Á¶Á¤
-        xRotation -= mouseY;    // ¸¶¿ì½º YÃà ÀÔ·Â¿¡ µû¶ó ¼öÁ÷ È¸Àü °ªÀ» Á¶Á¤
+        yRotation += mouseX;    // ï¿½ï¿½ï¿½ì½º Xï¿½ï¿½ ï¿½Ô·Â¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        xRotation -= mouseY;    // ï¿½ï¿½ï¿½ì½º Yï¿½ï¿½ ï¿½Ô·Â¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
@@ -58,10 +58,10 @@ public class Player : MonoBehaviour
 
         if (!isDriving)
         {
-            h = Input.GetAxisRaw("Horizontal"); // ¼öÆò ÀÌµ¿ ÀÔ·Â °ª
-            v = Input.GetAxisRaw("Vertical");   // ¼öÁ÷ ÀÌµ¿ ÀÔ·Â °ª
+            h = Input.GetAxisRaw("Horizontal"); // ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½Ô·ï¿½ ï¿½ï¿½
+            v = Input.GetAxisRaw("Vertical");   // ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½Ô·ï¿½ ï¿½ï¿½
             Rotate();
-            RaycastFromCamera(); // ·¹ÀÌÄ³½ºÆ® °Ë»ç
+            RaycastFromCamera(); // ï¿½ï¿½ï¿½ï¿½Ä³ï¿½ï¿½Æ® ï¿½Ë»ï¿½
         }
     }
 
@@ -82,43 +82,46 @@ public class Player : MonoBehaviour
 
     private void CamRotate()
     {
-        cam.transform.rotation = Quaternion.Euler(xRotation, yRotation, 0); // Ä«¸Þ¶óÀÇ È¸ÀüÀ» Á¶Àý
+        cam.transform.rotation = Quaternion.Euler(xRotation, yRotation, 0); // Ä«ï¿½Þ¶ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         cam.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
     }
 
     void Rotate()
     {
-       // ¼öÁ÷ È¸Àü °ªÀ» -90µµ¿¡¼­ 90µµ »çÀÌ·Î Á¦ÇÑ
-        transform.rotation = Quaternion.Euler(0, yRotation, 0);             // ÇÃ·¹ÀÌ¾î Ä³¸¯ÅÍÀÇ È¸ÀüÀ» Á¶Àý
+       // ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ -90ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 90ï¿½ï¿½ ï¿½ï¿½ï¿½Ì·ï¿½ ï¿½ï¿½ï¿½ï¿½
+        transform.rotation = Quaternion.Euler(0, yRotation, 0);             // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     }
 
     private void FixedUpdate()
     {
         if(!isDriving)
         {
-            // ÀÔ·Â¿¡ µû¶ó ÀÌµ¿ ¹æÇâ º¤ÅÍ °è»ê
+            // ï¿½Ô·Â¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
             Vector3 moveVec = transform.forward * v + transform.right * h;
 
-            // Rigidbody¸¦ ÀÌ¿ëÇØ ÀÌµ¿ Ã³¸®
+            // Rigidbodyï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ Ã³ï¿½ï¿½
             rigidbody.MovePosition(transform.position + moveVec.normalized * moveSpeed * Time.fixedDeltaTime);
         }
     }
 
     void RaycastFromCamera()
     {
-        // Ä«¸Þ¶óÀÇ ½ÃÁ¡¿¡¼­ ¾ÕÀ¸·Î ·¹ÀÌ¸¦ ½ð´Ù.
+        // Ä«ï¿½Þ¶ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½.
         Ray ray = cam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
         RaycastHit hit;
 
-        // ·¹ÀÌÄ³½ºÆ®°¡ ¹°Ã¼¿¡ ºÎµúÇû´ÂÁö °Ë»ç
+        // ï¿½ï¿½ï¿½ï¿½Ä³ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½
         if (Physics.Raycast(ray, out hit, raycastDistance))
         {
             if (hit.transform.gameObject.TryGetComponent(out RaycastingObject castObject))
             {
+                cursorState = castObject.cursorState;
                 if(Input.GetKeyDown(KeyCode.Mouse0))
                 {
                     castObject.Cast();
                 }
+            } else {
+                cursorState = 0;
             }
         }
     }
