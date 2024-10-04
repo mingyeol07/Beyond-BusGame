@@ -18,6 +18,11 @@ public class UIController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //reticleController.SetInteger("state",player.cursorState);
+        if (player.cursorState == -1) {
+            reticleController.gameObject.SetActive(false);
+        } else {
+            reticleController.gameObject.SetActive(true);
+            reticleController.SetInteger("state",player.cursorState);
+        }
     }
 }
