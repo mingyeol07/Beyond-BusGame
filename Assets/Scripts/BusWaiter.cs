@@ -35,7 +35,7 @@ public class BusWaiter : MonoBehaviour
 
     void Start()
     {
-        bus = GameObject.FindWithTag("Bus").transform;
+        bus = GameObject.FindWithTag("Bus").transform.GetChild(0);
         busRb = bus.GetComponentInChildren<Rigidbody>();
         rb = gameObject.GetComponent<Rigidbody>();
         doorTarget = bus.transform.Find("DoorTarget");

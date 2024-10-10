@@ -43,7 +43,7 @@ public class CarMove : MonoBehaviour
     private void Start()
     {
         rigid.transform.parent = null;
-        currentTurnSpeed = turnStrength;
+       currentTurnSpeed = turnStrength;
     }
     private void Update()
     {
@@ -82,7 +82,7 @@ public class CarMove : MonoBehaviour
         //rightFrontWheel.localRotation = Quaternion.Euler(rightFrontWheel.localRotation.eulerAngles.x, turnInput * maxWheelTurn, rightFrontWheel.localRotation.eulerAngles.z);
 
         // rigidbody의 포지션 따라가기
-        transform.position = rigid.gameObject.transform.localPosition - new Vector3(0, 1.3f, 0);
+        transform.position = rigid.gameObject.transform.localPosition - new Vector3(0, 0.5f, 0);
     }
 
     private void FixedUpdate()
