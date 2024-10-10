@@ -32,7 +32,8 @@ public class BusGuest : RaycastingObject
         if(playerTransform.GetComponent<Player>().weapon == null)
         { 
             playerTransform.GetComponent<Player>().guest = this.gameObject;
-
+            GetComponent<BusWaiter>().SetAnimationPrefab(3);
+            GameManager.Instance.busGuests.Remove(this);
         }
         isGuesting = true;
     }

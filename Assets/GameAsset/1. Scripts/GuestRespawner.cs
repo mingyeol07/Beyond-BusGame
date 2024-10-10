@@ -5,9 +5,9 @@ using UnityEngine;
 public class GuestRespawner : MonoBehaviour
 {
     [SerializeField] private Transform[] spawnTransform;
-    [SerializeField] private GameObject guestPrefab;
+    [SerializeField] private GameObject[] guestPrefabs;
 
-    private void Start()
+    private void Awake()
     {
         SpawnGuests();
     }
@@ -24,7 +24,9 @@ public class GuestRespawner : MonoBehaviour
     {
         for(int i =0; i < spawnTransform.Length; i++)
         {
-            Instantiate(guestPrefab, spawnTransform[i].position, Quaternion.identity);
+            int random = Random.Range(0, guestPrefabs.Length);
+
+            Instantiate(guestPrefabs[random], spawnTransform[i].position, Quaternion.identity);
         }
     }
 }

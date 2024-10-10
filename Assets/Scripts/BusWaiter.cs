@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class BusWaiter : MonoBehaviour
@@ -16,7 +17,40 @@ public class BusWaiter : MonoBehaviour
     private BusGuest guest;
 
     [SerializeField] Animator animator;
+    [SerializeField] private GameObject[] animations;
+    [SerializeField] private GameObject txt_bubble;
 
+
+    private void SetBubble()
+    {
+        txt_bubble.SetActive(true);
+
+        TMP_Text txt = txt_bubble.GetComponentInChildren<TMP_Text>();
+
+        int ran = Random.Range(0, 3);
+
+        if(ran == 0)
+        {
+            txt.text = "요금 조금만 깎아주세요~";
+        }
+        else if (ran == 1)
+        {
+            txt.text = "버스가 왜이리 더럽습니까?";
+        }
+        else if (ran == 2)
+        {
+            txt.text = "빨리빨리좀 다니세요";
+        }
+    }
+    public void SetAnimationPrefab(int index)
+    {
+        for(int i =0; i < animations.Length; i++)
+        {
+            animations[i].SetActive(false);
+        }
+
+        animations[index].SetActive(true);
+    }
     private void Awake()
     {
         guest = GetComponent<BusGuest>();
@@ -41,6 +75,7 @@ public class BusWaiter : MonoBehaviour
         doorTarget = bus.transform.Find("DoorTarget");
         seatParent = bus.transform.Find("Seats");
         initPosition = transform.position;
+        SetAnimationPrefab(0);
     }
 
     // Update is called once per frame
@@ -59,7 +94,11 @@ public class BusWaiter : MonoBehaviour
             {
                 case States.Waiting:
                     if (Vector3.Distance(doorTarget.transform.position, transform.position) < 5 && busRb.velocity.magnitude <= 0.5f)
+                    {
+                        SetAnimationPrefab(1);
                         curState = States.GettingOnDoor;
+                    }
+
                     if (transform.position != initPosition)
                     {
                         transform.position = Vector3.MoveTowards(transform.position, initPosition, Time.deltaTime * 30);
@@ -94,6 +133,18 @@ public class BusWaiter : MonoBehaviour
                     else
                     {
                         busLocalPosition = seatParent.GetChild(seat).transform.localPosition;
+                        if(guest.BusGuestType == BusGuestType.NuisanceGuest)
+                        {
+                            SetAnimationPrefab(4);
+                            SetBubble();
+                        }
+                        else
+                        {
+                            SetAnimationPrefab(2);
+                        }
+
+                        GameManager.Instance.busGuests.Add(this.guest);
+                        StartCoroutine(Disappear());
                         curState = States.In;
                     }
                     transform.position = bus.transform.TransformPoint(busLocalPosition) + Vector3.up * yOffset;
@@ -108,5 +159,13 @@ public class BusWaiter : MonoBehaviour
             }
         }
 
+        IEnumerator Disappear()
+        {
+            yield return new WaitForSeconds(20);
+            if (GameManager.Instance.busGuests.Contains(this.guest) )
+            {
+                GameManager.Instance.busGuests.Remove(this.guest);
+            }
+        }
     }
 }
