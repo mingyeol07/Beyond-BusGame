@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour
 
     public void GameClear()
     {
-        pnl_clear.SetActive(true);
+        pnl_clear.gameObject.SetActive(true);
     }
 
     private void Update()
