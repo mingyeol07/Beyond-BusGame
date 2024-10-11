@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.ConstrainedExecution;
-using TreeEditor;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -62,7 +61,7 @@ public class CarMove : MonoBehaviour
             StartDrift();
         }
 
-        // µå¸®ÇÁÆ® Á¾·á
+        // ï¿½å¸®ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
         if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             isDrift = false;
@@ -81,7 +80,7 @@ public class CarMove : MonoBehaviour
         //leftFrontWheel.localRotation = Quaternion.Euler(leftFrontWheel.localRotation.eulerAngles.x, turnInput * maxWheelTurn, leftFrontWheel.localRotation.eulerAngles.z);
         //rightFrontWheel.localRotation = Quaternion.Euler(rightFrontWheel.localRotation.eulerAngles.x, turnInput * maxWheelTurn, rightFrontWheel.localRotation.eulerAngles.z);
 
-        // rigidbodyÀÇ Æ÷Áö¼Ç µû¶ó°¡±â
+        // rigidbodyï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ó°¡±ï¿½
         transform.position = rigid.gameObject.transform.localPosition - new Vector3(0, 0.5f, 0);
     }
 

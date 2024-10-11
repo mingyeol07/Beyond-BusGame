@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Mingyeol.unity
+    guid: 145d2ae2d8aecf74981397686137cc11
   m_configObjects: {}

@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class BusWaiter : MonoBehaviour
 {
@@ -54,6 +56,13 @@ public class BusWaiter : MonoBehaviour
     private void Awake()
     {
         guest = GetComponent<BusGuest>();
+        bus = GameObject.FindWithTag("Bus").transform.GetChild(0);
+        busRb = GameObject.Find("MoveCollider").GetComponent<Rigidbody>();
+        rb = gameObject.GetComponent<Rigidbody>();
+        doorTarget = bus.transform.Find("DoorTarget");
+        seatParent = bus.transform.Find("Seats");
+        initPosition = transform.position;
+        SetAnimationPrefab(0);
     }
     enum States
     {
@@ -66,17 +75,6 @@ public class BusWaiter : MonoBehaviour
     States curState = States.Waiting;
 
     [SerializeField] float yOffset;
-
-    void Start()
-    {
-        bus = GameObject.FindWithTag("Bus").transform.GetChild(0);
-        busRb = bus.GetComponentInChildren<Rigidbody>();
-        rb = gameObject.GetComponent<Rigidbody>();
-        doorTarget = bus.transform.Find("DoorTarget");
-        seatParent = bus.transform.Find("Seats");
-        initPosition = transform.position;
-        SetAnimationPrefab(0);
-    }
 
     // Update is called once per frame
     void LateUpdate()

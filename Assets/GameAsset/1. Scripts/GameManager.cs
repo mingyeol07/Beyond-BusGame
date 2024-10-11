@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -62,5 +64,13 @@ public class GameManager : MonoBehaviour
     public void GameClear()
     {
         pnl_clear.SetActive(true);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R) && Input.GetKey(KeyCode.LeftControl))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name); 
+        }
     }
 }

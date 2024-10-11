@@ -20,12 +20,12 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
+  m_AmbientSkyColor: {r: 0.79622644, g: 0.79622644, b: 0.79622644, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 0
-  m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
+  m_AmbientMode: 3
+  m_SubtractiveShadowColor: {r: 0.22086865, g: 0.22966966, b: 0.2528302, a: 1}
   m_SkyboxMaterial: {fileID: 2100000, guid: 67950864b84c5db4f9eee7ca51c85571, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
@@ -14916,6 +14916,7 @@ GameObject:
   - component: {fileID: 1661498000}
   - component: {fileID: 1661497999}
   - component: {fileID: 1661498003}
+  - component: {fileID: 1661498004}
   m_Layer: 7
   m_Name: "\uC190\uB2D8 \uB9AC\uC2A4\uD3EC\uB108"
   m_TagString: Untagged
@@ -15040,6 +15041,33 @@ MonoBehaviour:
   - {fileID: 647118791}
   guestPrefabs:
   - {fileID: 7332629080776216493, guid: 04efb896ea7854640b5054a0ed495403, type: 3}
+--- !u!54 &1661498004
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1661497998}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1666324464
 GameObject:
   m_ObjectHideFlags: 0
@@ -15252,6 +15280,7 @@ GameObject:
   - component: {fileID: 1724856557}
   - component: {fileID: 1724856556}
   - component: {fileID: 1724856560}
+  - component: {fileID: 1724856561}
   m_Layer: 7
   m_Name: "\uC190\uB2D8 \uB9AC\uC2A4\uD3EC\uB108 (1)"
   m_TagString: Untagged
@@ -15372,6 +15401,33 @@ MonoBehaviour:
   - {fileID: 199609573}
   guestPrefabs:
   - {fileID: 7332629080776216493, guid: 04efb896ea7854640b5054a0ed495403, type: 3}
+--- !u!54 &1724856561
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1724856555}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!4 &1728576600 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4000013471445132, guid: ae79fc296f66b4f18bb02bac835048dc, type: 3}
