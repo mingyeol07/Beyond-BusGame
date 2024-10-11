@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
                 }
                 else
                 {
-                    add += 0.05f;
+                    add += 0.025f;
                 }
 
                 busGuests[i].transform.rotation = busTransform.rotation;

@@ -161,10 +161,12 @@ public class BusWaiter : MonoBehaviour
 
         IEnumerator Disappear()
         {
-            yield return new WaitForSeconds(20);
+            int ran = Random.Range(15, 25);
+            yield return new WaitForSeconds(ran);
             if (GameManager.Instance.busGuests.Contains(this.guest) )
             {
                 GameManager.Instance.busGuests.Remove(this.guest);
+                Destroy(this.gameObject);
             }
         }
     }
